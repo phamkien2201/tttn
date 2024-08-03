@@ -17,6 +17,7 @@ public class CategoryService implements ICategoryService {
         Category newCategory = Category
                 .builder()
                 .name(categoryDTO.getName())
+                .parentId(categoryDTO.getParentId())
                 .build();
         categoryRepository.save(newCategory);
     }
@@ -37,6 +38,7 @@ public class CategoryService implements ICategoryService {
                                    CategoryDTO categoryDTO) {
         Category existingCategory = getCategoryById(categoryId);
         existingCategory.setName(categoryDTO.getName());
+        existingCategory.setId(categoryDTO.getParentId());
         categoryRepository.save(existingCategory);
     }
 

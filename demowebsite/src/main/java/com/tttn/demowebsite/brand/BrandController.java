@@ -2,6 +2,7 @@ package com.tttn.demowebsite.brand;
 
 import com.tttn.demowebsite.category.Category;
 import com.tttn.demowebsite.category.CategoryDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class BrandController {
     private final BrandService brandService;
 
     @PostMapping("")
+    @Operation(summary = "Tạo brand")
     public void createBrands(
             @Valid @RequestBody BrandDTO brandDTO,
             BindingResult result) {
@@ -33,6 +35,7 @@ public class BrandController {
 
 
     @GetMapping("")//http://localhost:8080/api/v1/brands?page=1&limit=10
+    @Operation(summary = "Lấy danh sách brand")
     public ResponseEntity<List<Brand>> getAllBrands(
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
@@ -43,6 +46,7 @@ public class BrandController {
 
 
     @PutMapping("/{id}")
+    @Operation(summary = "Cập nhật brand")
     public void updateBrands(
             @PathVariable Long id,
             @Valid @RequestBody BrandDTO brandDTO
@@ -51,6 +55,7 @@ public class BrandController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Xóa brand")
     public void deleteCategories(@PathVariable Long id) {
         brandService.deleteBrand(id);
     }

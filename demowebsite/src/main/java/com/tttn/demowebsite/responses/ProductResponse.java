@@ -22,6 +22,8 @@ public class ProductResponse extends BaseResponse {
 
     @JsonProperty("category_id")
     private Long categoryId;
+    @JsonProperty("brand_id")
+    private Long brandId;
     public static ProductResponse fromProduct(Product product) {
         ProductResponse productResponse = ProductResponse.builder()
                 .name(product.getName())
@@ -29,6 +31,7 @@ public class ProductResponse extends BaseResponse {
                 .thumbnail(product.getThumbnail())
                 .description(product.getDescription())
                 .categoryId(product.getCategory().getId())
+                .brandId(product.getBrand().getId())
                 .build();
         productResponse.setCreatedAt(product.getCreatedAt());
         productResponse.setUpdatedAt(product.getUpdatedAt());

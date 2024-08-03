@@ -10,13 +10,13 @@ import org.springframework.data.domain.PageRequest;
 
 
 public interface IProductService {
-    Product createProduct(ProductDTO productDTO) throws DataNotFoundException;
+    void createProduct(ProductDTO productDTO) ;
 
-    Product getProductById(long id) throws DataNotFoundException;
+    Product getProductById(long id);
 
     Page<ProductResponse> getAllProducts(PageRequest pageRequest);
 
-    Product updateProduct(long id, ProductDTO productDTO) throws DataNotFoundException;
+    void updateProduct(long id, ProductDTO productDTO) ;
 
     void deleteProduct(long id);
 

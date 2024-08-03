@@ -1,5 +1,6 @@
 package com.tttn.demowebsite.category;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,4 +20,7 @@ public class Category {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @JsonProperty("parent_id")
+    private Long parentId;
 }

@@ -1,11 +1,9 @@
 package com.tttn.demowebsite.category;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -18,20 +16,15 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("")
+    @Operation(summary = "Tạo danh mục sản phẩm")
     public void createCategories(
-            @Valid @RequestBody CategoryDTO categoryDTO,
-            BindingResult result) {
-        if(result.hasErrors()) {
-            List<String> errorMessages = result.getFieldErrors().stream()
-                    .map(FieldError::getDefaultMessage)
-                    .toList();
-            ResponseEntity.badRequest().body(errorMessages);
-        }
+            @Valid @RequestBody CategoryDTO categoryDTO) {
         categoryService.createCategory(categoryDTO);
     }
 
     //hien thi all category
     @GetMapping("")//http://localhost:8080/api/v1/categories?page=1&limit=10
+    @Operation(summary = "Lấy tất cả danh mục sản phâm")
     public ResponseEntity<List<Category>> getAllCategories(
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
@@ -42,14 +35,15 @@ public class CategoryController {
 
 
     @PutMapping("/{id}")
+    @Operation(summary = "Cập nhat danh muc")
     public void updateCategories(
             @PathVariable Long id,
-           @Valid @RequestBody CategoryDTO categoryDTO
-            ) {
+           @Valid @RequestBody CategoryDTO categoryDTO) {
         categoryService.updateCategory(id, categoryDTO);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Xóa danh mục")
     public void deleteCategories(@PathVariable Long id) {
         categoryService.deleteCategory(id);
     }

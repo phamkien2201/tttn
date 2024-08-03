@@ -28,16 +28,16 @@ public class ProductService implements IProductService {
     private final BrandRepository brandRepository;
 
     @Override
-    public Product createProduct(ProductDTO productDTO) throws DataNotFoundException {
+    public void createProduct(ProductDTO productDTO) {
         Category existingCategory = categoryRepository
                 .findById(productDTO.getCategoryId())
                 .orElseThrow(() ->
-                        new DataNotFoundException(
+                        new IllegalArgumentException(
                                 "Cannot find category with id: "+productDTO.getCategoryId()));
         Brand existingBrand = brandRepository
                 .findById(productDTO.getBrandId())
                 .orElseThrow(() ->
-                        new DataNotFoundException(
+                        new IllegalArgumentException(
                                 "cannot find brand with id: " +productDTO.getBrandId()));
         Product newProduct = Product.builder()
                 .name(productDTO.getName())
@@ -47,14 +47,14 @@ public class ProductService implements IProductService {
                 .category(existingCategory)
                 .brand(existingBrand)
                 .build();
-        return productRepository.save(newProduct);
+        productRepository.save(newProduct);
     }
 
     @Override
-    public Product getProductById(long id) throws DataNotFoundException {
+    public Product getProductById(long id) {
         return productRepository.findById(id)
                 .orElseThrow(() ->
-                        new DataNotFoundException(
+                        new IllegalArgumentException(
                                 "Cannot found product with id "+id));
     }
 
@@ -66,20 +66,20 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateProduct(
+    public void updateProduct(
             long id, ProductDTO productDTO)
-            throws DataNotFoundException {
+    {
         Product existingProduct = getProductById(id);
         if(existingProduct != null) {
             Category existingCategory = categoryRepository
                     .findById(productDTO.getCategoryId())
                     .orElseThrow(() ->
-                            new DataNotFoundException(
+                            new IllegalArgumentException(
                                     "Cannot find category with id: "+productDTO.getCategoryId()));
             Brand existingBrand = brandRepository
                     .findById(productDTO.getBrandId())
                     .orElseThrow(() ->
-                            new DataNotFoundException(
+                            new IllegalArgumentException(
                                     "cannot find brand with id: " +productDTO.getBrandId()));
             existingProduct.setName(productDTO.getName());
             existingProduct.setCategory(existingCategory);
@@ -87,9 +87,8 @@ public class ProductService implements IProductService {
             existingProduct.setPrice(productDTO.getPrice());
             existingProduct.setDescription(productDTO.getDescription());
             existingProduct.setThumbnail(productDTO.getThumbnail());
-            return productRepository.save(existingProduct);
+            productRepository.save(existingProduct);
         }
-        return null;
     }
 
     @Override
@@ -106,11 +105,11 @@ public class ProductService implements IProductService {
     @Override
     public ProductImage createProductImage(Long productId,
                                             ProductImageDTO productImageDTO)
-            throws DataNotFoundException, InvaildParamException {
+            throws InvaildParamException {
         Product existingProduct = productRepository
                 .findById(productId)
                 .orElseThrow(() ->
-                        new DataNotFoundException(
+                        new IllegalArgumentException(
                                 "Cannot find product with id: "+productImageDTO.getProductId()));
         ProductImage newProductImage = ProductImage.builder()
                 .product(existingProduct)
