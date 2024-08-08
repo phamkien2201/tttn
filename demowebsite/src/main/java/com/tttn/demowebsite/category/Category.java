@@ -23,4 +23,5 @@ public class Category {
 
     @JsonProperty("parent_id")
     private Long parentId;
+
 }
