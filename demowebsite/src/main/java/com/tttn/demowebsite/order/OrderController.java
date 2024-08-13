@@ -28,7 +28,7 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Order> getOrder(
             @Valid @PathVariable("id") Long orderId) {
         Order existingOrder = orderService.getOrder(orderId);
