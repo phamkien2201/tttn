@@ -13,4 +13,6 @@ public class BrandDTO {
 
     @NotEmpty(message = "Brand name do not empty")
     private String name;
+
+    private String thumbnail;
 }
