@@ -2,13 +2,16 @@ package com.tttn.demowebsite.brand;
 
 import com.tttn.demowebsite.category.Category;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BrandService implements IBrandService {
+public class
+BrandService implements IBrandService {
 
     private final BrandRepository brandRepository;
     @Override
@@ -27,8 +30,10 @@ public class BrandService implements IBrandService {
     }
 
     @Override
-    public List<Brand> getAllBrands() {
-        return brandRepository.findAll();
+    public List<Brand> getAllBrands(int page, int limit) {
+        PageRequest pageRequest = PageRequest.of(page, limit);
+        Page<Brand> brandPage = brandRepository.findAll(pageRequest);
+        return brandPage.getContent();
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.tttn.demowebsite.user;
 
-import com.tttn.demowebsite.exceptions.DataNotFoundException;
-
 public interface IUserService {
-    User createUser(UserDTO userDTO) throws DataNotFoundException;
+    User createUser(UserDTO userDTO);
     String login(String phoneNumber, String password);
 }

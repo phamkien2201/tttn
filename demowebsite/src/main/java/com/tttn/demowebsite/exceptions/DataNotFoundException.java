@@ -1,8 +1,0 @@
-package com.tttn.demowebsite.exceptions;
-
-public class DataNotFoundException extends Exception {
-
-    public DataNotFoundException(String message ) {
-        super(message);
-    }
-}

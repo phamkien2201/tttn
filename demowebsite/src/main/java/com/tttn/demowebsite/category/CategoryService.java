@@ -1,6 +1,8 @@
 package com.tttn.demowebsite.category;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -29,8 +31,10 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public List<Category> getAllCategories(int page, int limit) {
+        PageRequest pageRequest = PageRequest.of(page, limit);
+        Page<Category> categoryPage = categoryRepository.findAll(pageRequest);
+        return categoryPage.getContent();
     }
 
     @Override

@@ -10,6 +10,5 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    boolean existsByName(String name);
     Page<Product> findAll(Pageable pageable);//phan trang
 }

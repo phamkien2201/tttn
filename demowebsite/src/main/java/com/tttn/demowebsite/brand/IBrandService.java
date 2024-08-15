@@ -7,7 +7,7 @@ public interface IBrandService {
 
     void createBrand(BrandDTO brandDTO);
     Brand getBrandById(long id);
-    List<Brand> getAllBrands();
+    List<Brand> getAllBrands(int page, int limit);
     void updateBrand(long brandId, BrandDTO brandDTO);
 
     void deleteBrand(long id);

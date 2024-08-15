@@ -1,6 +1,5 @@
 package com.tttn.demowebsite.user;
 
-import com.tttn.demowebsite.exceptions.DataNotFoundException;
 import com.tttn.demowebsite.role.Role;
 import com.tttn.demowebsite.role.RoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ public class UserService implements IUserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     @Override
-    public User createUser(UserDTO userDTO) throws DataNotFoundException {
+    public User createUser(UserDTO userDTO) {
         String phoneNumber = userDTO.getPhoneNumber();
         //kiem tra sdt ton tai kh
         if(userRepository.existsByPhoneNumber(phoneNumber)) {
@@ -31,7 +30,7 @@ public class UserService implements IUserService {
                 .googleAccountId(userDTO.getGoogleAccountId())
                 .build();
         Role role = roleRepository.findById(userDTO.getRoleId())
-                .orElseThrow(() -> new DataNotFoundException("Role not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("Role not found!"));
         newUser.setRole(role);
         //
         if(userDTO.getFacebookAccountId() == 0 && userDTO.getGoogleAccountId() == 0) {

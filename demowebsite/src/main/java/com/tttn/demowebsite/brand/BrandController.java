@@ -38,10 +38,16 @@ public class BrandController {
     @GetMapping("")//http://localhost:8080/api/v1/brands?page=1&limit=10
     @Operation(summary = "Lấy danh sách brand")
     public ResponseEntity<List<Brand>> getAllBrands(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "limit", required = false) Integer limit
     ) {
-        List<Brand> brands = brandService.getAllBrands();
+        if (page == null) {
+            page = 0;
+        }
+        if (limit == null) {
+            limit = 20;
+        }
+        List<Brand> brands = brandService.getAllBrands(page, limit);
         return ResponseEntity.ok(brands);
     }
 

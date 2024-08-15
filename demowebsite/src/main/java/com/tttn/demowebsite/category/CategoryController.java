@@ -27,10 +27,16 @@ public class CategoryController {
     @GetMapping("")//http://localhost:8080/api/v1/categories?page=1&limit=10
     @Operation(summary = "Lấy tất cả danh mục sản phâm")
     public ResponseEntity<List<Category>> getAllCategories(
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "limit", required = false ) Integer limit
     ) {
-        List<Category> categories = categoryService.getAllCategories();
+        if (page == null) {
+            page = 0;
+        }
+        if (limit == null) {
+            limit = 20;
+        }
+        List<Category> categories = categoryService.getAllCategories(page, limit);
         return ResponseEntity.ok(categories);
     }
 

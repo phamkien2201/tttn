@@ -4,14 +4,8 @@ import com.tttn.demowebsite.brand.Brand;
 import com.tttn.demowebsite.brand.BrandRepository;
 import com.tttn.demowebsite.category.Category;
 import com.tttn.demowebsite.category.CategoryRepository;
-import com.tttn.demowebsite.exceptions.DataNotFoundException;
-import com.tttn.demowebsite.exceptions.InvaildParamException;
-import com.tttn.demowebsite.productimage.ProductImage;
-import com.tttn.demowebsite.productimage.ProductImageDTO;
-import com.tttn.demowebsite.productimage.ProductImageRepository;
 import com.tttn.demowebsite.responses.ProductResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,7 +18,6 @@ public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
-    private final ProductImageRepository productImageRepository;
     private final BrandRepository brandRepository;
 
     @Override
@@ -97,29 +90,4 @@ public class ProductService implements IProductService {
         optionalProduct.ifPresent(productRepository::delete);
     }
 
-    @Override
-    public boolean existsByName(String name) {
-        return productRepository.existsByName(name);
-    }
-
-    @Override
-    public ProductImage createProductImage(Long productId,
-                                            ProductImageDTO productImageDTO)
-            throws InvaildParamException {
-        Product existingProduct = productRepository
-                .findById(productId)
-                .orElseThrow(() ->
-                        new IllegalArgumentException(
-                                "Cannot find product with id: "+productImageDTO.getProductId()));
-        ProductImage newProductImage = ProductImage.builder()
-                .product(existingProduct)
-                .imageUrl(productImageDTO.getImageUrl())
-                .build();
-        //kh cho insert qua 5 anh cho 1 sp
-       int size = productImageRepository.findByProductId(productId).size();
-       if(size >= 5) {
-           throw new InvaildParamException("Number of image must be =< 5");
-       }
-       return productImageRepository.save(newProductImage);
-    }
 }
