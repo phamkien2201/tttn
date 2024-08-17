@@ -33,17 +33,17 @@ public class UserController {
             if(!userDTO.getPassword().equals(userDTO.getRetypePassword())){
                 return ResponseEntity.badRequest().body("Password does not match");
             }
-            userService.createUser(userDTO);
-            return ResponseEntity.ok("Register successfully");
+           User user = userService.createUser(userDTO);
+            return ResponseEntity.ok(user);
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(
+    public ResponseEntity<String> login(
             @Valid @RequestBody UserLoginDTO userLoginDTO) {
-        String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
+        String  token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
         return ResponseEntity.ok(token);
     }
 }
