@@ -26,8 +26,10 @@ public class ProductDTO {
     @Max(value = 100000000, message = "gia khong the lon hon 10,000,000")
     private Float price;
 
-    private String thumbnail;
+    private List<String> thumbnails; // Updated to match List<String>
+    private List<String> ingredients;
     private String description;
+    private String userManual;
 
     @JsonProperty("category_id")
     private Long categoryId;

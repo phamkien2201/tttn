@@ -22,4 +22,4 @@ server:
     include-message: always
 jwt:
   expiration: 2592000
-  secretKey: key is key
+  secretKey: 0ZpmZgvXgcispx8qtAIAWQ653oBMS6YChDCX31RwRnQ=

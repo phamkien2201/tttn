@@ -32,13 +32,16 @@ public class ProductService implements IProductService {
                 .orElseThrow(() ->
                         new IllegalArgumentException(
                                 "cannot find brand with id: " +productDTO.getBrandId()));
+
         Product newProduct = Product.builder()
                 .name(productDTO.getName())
                 .price(productDTO.getPrice())
-                .thumbnail(productDTO.getThumbnail())
+                .thumbnail(productDTO.getThumbnails())
+                .ingredient(productDTO.getIngredients())
                 .description(productDTO.getDescription())
                 .category(existingCategory)
                 .brand(existingBrand)
+                .userManual(productDTO.getUserManual())
                 .build();
         productRepository.save(newProduct);
     }
@@ -74,20 +77,22 @@ public class ProductService implements IProductService {
                     .orElseThrow(() ->
                             new IllegalArgumentException(
                                     "cannot find brand with id: " +productDTO.getBrandId()));
+
             existingProduct.setName(productDTO.getName());
             existingProduct.setCategory(existingCategory);
             existingProduct.setBrand(existingBrand);
             existingProduct.setPrice(productDTO.getPrice());
             existingProduct.setDescription(productDTO.getDescription());
-            existingProduct.setThumbnail(productDTO.getThumbnail());
+            existingProduct.setThumbnail(productDTO.getThumbnails());
+            existingProduct.setIngredient(productDTO.getIngredients());
+            existingProduct.setUserManual(productDTO.getUserManual());
             productRepository.save(existingProduct);
         }
     }
 
     @Override
     public void deleteProduct(long id) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        optionalProduct.ifPresent(productRepository::delete);
+        productRepository.findById(id).ifPresent(productRepository::delete);
     }
 
 }

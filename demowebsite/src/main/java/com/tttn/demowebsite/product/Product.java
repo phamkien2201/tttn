@@ -6,8 +6,7 @@ import com.tttn.demowebsite.category.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -30,8 +29,18 @@ public class Product extends BaseEntity {
     @Column(name = "description")
     private String description;
 
+    @ElementCollection
+    @CollectionTable(name = "product_thumbnails", joinColumns = @JoinColumn(name = "product_id"))
     @Column(name = "thumbnail")
-    private String thumbnail;
+    private List<String> thumbnail;  // Đã thay đổi từ String thành List<String>
+
+    @ElementCollection
+    @CollectionTable(name = "product_ingredients", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "ingredient")
+    private List<String> ingredient;
+
+    @Column(name = "user_manual")
+    private String userManual;
 
     @ManyToOne
     @JoinColumn (name = "category_id")
