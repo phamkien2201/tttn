@@ -36,7 +36,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 filterChain.doFilter(request, response);
                 return;
             }
-            final String authHeader = request.getHeader("Authozization");
+            final String authHeader = request.getHeader("Authorization");
             if(authHeader == null || !authHeader.startsWith("Bearer ")){
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "unauthorized");
                 return;
@@ -70,7 +70,11 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of("api/v1/categories", "GET"),
                 Pair.of("api/v1/brands", "GET"),
                 Pair.of("api/v1/users/register", "POST"),
-                Pair.of("api/v1/users/login", "POST")
+                Pair.of("api/v1/users/login", "POST"),
+                Pair.of("/swagger-ui/", "GET"),
+                Pair.of("/v3/api-docs", "GET"),
+                Pair.of("/swagger-resources/", "GET"),
+                Pair.of("/webjars/", "GET")
         );
         for (Pair<String, String> bypassToken: bypassTokens) {
             if (request.getServletPath().contains(bypassToken.getFirst()) &&

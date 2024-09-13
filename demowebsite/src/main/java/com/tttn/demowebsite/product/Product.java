@@ -25,6 +25,7 @@ public class Product extends BaseEntity {
     private String name;
 
     private Float price;
+    private Float quantity;
 
     @Column(name = "description")
     private String description;
@@ -32,7 +33,7 @@ public class Product extends BaseEntity {
     @ElementCollection
     @CollectionTable(name = "product_thumbnails", joinColumns = @JoinColumn(name = "product_id"))
     @Column(name = "thumbnail")
-    private List<String> thumbnail;  // Đã thay đổi từ String thành List<String>
+    private List<String> thumbnails;
 
     @ElementCollection
     @CollectionTable(name = "product_ingredients", joinColumns = @JoinColumn(name = "product_id"))
@@ -49,4 +50,6 @@ public class Product extends BaseEntity {
     @ManyToOne
     @JoinColumn (name = "brand_id")
     private Brand brand;
+
+
 }

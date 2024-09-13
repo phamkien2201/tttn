@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tttn.demowebsite.product.Product;
 import lombok.*;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data//toString
 @Getter
@@ -17,6 +17,7 @@ public class ProductResponse extends BaseResponse {
     private Long id;
     private String name;
     private Float price;
+    private Float quantity;
     private List<String> thumbnails;
     private List<String> ingredients;
     private String description;
@@ -28,12 +29,16 @@ public class ProductResponse extends BaseResponse {
     @JsonProperty("brand_id")
     private Long brandId;
     private String brandName;
+
+
     public static ProductResponse fromProduct(Product product) {
+
         ProductResponse productResponse = ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
-                .thumbnails(product.getThumbnail())
+                .quantity(product.getQuantity())
+                .thumbnails(product.getThumbnails())
                 .ingredients(product.getIngredient())
                 .description(product.getDescription())
                 .userManual(product.getUserManual())
@@ -46,4 +51,5 @@ public class ProductResponse extends BaseResponse {
         productResponse.setUpdatedAt(product.getUpdatedAt());
         return productResponse;
     }
+
 }

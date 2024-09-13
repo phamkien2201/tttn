@@ -1,6 +1,7 @@
 package com.tttn.demowebsite.configurations;
 
 import com.tttn.demowebsite.components.JwtTokenFilter;
+import com.tttn.demowebsite.role.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,26 +24,81 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(requests -> {
+                .authorizeHttpRequests(requests ->
                     requests
+                            .requestMatchers(
+                                    "/swagger-resources/**",
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+                                    "/webjars/**"
+                            ).permitAll()
                             .requestMatchers(
                                     ("api/v1/users/register"),
                                     ("api/v1/users/login")
                             )
                             .permitAll()
-                            .requestMatchers(POST,
-                                    ("api/v1/orders")).hasAnyRole("USER","ADMIN")
 
                             .requestMatchers(GET,
-                                    ("api/v1/orders/**")).hasAnyRole("USER","ADMIN")
+                                    ("api/v1/categories/**")).permitAll()
+
+                            .requestMatchers(POST,
+                                    ("api/v1/categories/**")).hasAnyRole(Role.ADMIN)
 
                             .requestMatchers(PUT,
-                                    ("api/v1/orders/**")).hasRole("ADMIN")
+                                    ("api/v1/categories/**")).hasAnyRole(Role.ADMIN)
 
                             .requestMatchers(DELETE,
-                                    ("api/v1/orders/**")).hasRole("ADMIN")
-                            .anyRequest().authenticated();
-                });
+                                    ("api/v1/categories/**")).hasAnyRole(Role.ADMIN)
+
+                            .requestMatchers(GET,
+                                    ("api/v1/brands/**")).permitAll()
+
+                            .requestMatchers(POST,
+                                    ("api/v1/brands/**")).hasAnyRole(Role.ADMIN)
+
+                            .requestMatchers(PUT,
+                                    ("api/v1/brands/**")).hasAnyRole(Role.ADMIN)
+
+                            .requestMatchers(DELETE,
+                                    ("api/v1/brands/**")).hasAnyRole(Role.ADMIN)
+
+                            .requestMatchers(GET,
+                                    ("api/v1/products/**")).permitAll()
+
+                            .requestMatchers(POST,
+                                    ("api/v1/products/**")).hasAnyRole(Role.ADMIN)
+
+                            .requestMatchers(PUT,
+                                    ("api/v1/products/**")).hasAnyRole(Role.ADMIN)
+
+                            .requestMatchers(DELETE,
+                                    ("api/v1/products/**")).hasAnyRole(Role.ADMIN)
+
+                            .requestMatchers(POST,
+                                    ("api/v1/orders")).hasAnyRole(Role.USER,Role.ADMIN)
+
+                            .requestMatchers(GET,
+                                    ("api/v1/orders/**")).permitAll()
+
+                            .requestMatchers(PUT,
+                                    ("api/v1/orders/**")).hasRole(Role.ADMIN)
+
+                            .requestMatchers(DELETE,
+                                    ("api/v1/orders/**")).hasRole(Role.ADMIN)
+
+                            .requestMatchers(POST,
+                                    ("api/v1/order_details")).hasAnyRole(Role.USER,Role.ADMIN)
+
+                            .requestMatchers(GET,
+                                    ("api/v1/order_details/**")).permitAll()
+
+                            .requestMatchers(PUT,
+                                    ("api/v1/order_details/**")).hasRole(Role.ADMIN)
+
+                            .requestMatchers(DELETE,
+                                    ("api/v1/order_details/**")).hasRole(Role.ADMIN)
+                            .anyRequest().authenticated()
+                );
         return http.build();
     }
 }

@@ -32,6 +32,12 @@ public class UserService implements IUserService {
         if(userRepository.existsByPhoneNumber(phoneNumber)) {
             throw new DataIntegrityViolationException("Phone number already exists! ");
         }
+
+        Role role = roleRepository.findById(userDTO.getRoleId())
+                .orElseThrow(() -> new IllegalArgumentException("Role not found!"));
+//        if (role.getName().equals(Role.ADMIN)){
+//            throw new DataIntegrityViolationException(" You cannot register an admin account ");
+//        }
         //convert from userDTO => user
         User newUser = User.builder()
                 .fullName(userDTO.getFullName())
@@ -42,8 +48,6 @@ public class UserService implements IUserService {
                 .facebookAccountId(userDTO.getFacebookAccountId())
                 .googleAccountId(userDTO.getGoogleAccountId())
                 .build();
-        Role role = roleRepository.findById(userDTO.getRoleId())
-                .orElseThrow(() -> new IllegalArgumentException("Role not found!"));
         newUser.setRole(role);
         // neu co accountId thi khong yeu cau password
         if(userDTO.getFacebookAccountId() == 0 && userDTO.getGoogleAccountId() == 0) {

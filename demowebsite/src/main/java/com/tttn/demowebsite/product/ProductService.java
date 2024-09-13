@@ -5,11 +5,13 @@ import com.tttn.demowebsite.brand.BrandRepository;
 import com.tttn.demowebsite.category.Category;
 import com.tttn.demowebsite.category.CategoryRepository;
 import com.tttn.demowebsite.responses.ProductResponse;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,7 +38,8 @@ public class ProductService implements IProductService {
         Product newProduct = Product.builder()
                 .name(productDTO.getName())
                 .price(productDTO.getPrice())
-                .thumbnail(productDTO.getThumbnails())
+                .quantity(productDTO.getQuantity())
+                .thumbnails(productDTO.getThumbnails())
                 .ingredient(productDTO.getIngredients())
                 .description(productDTO.getDescription())
                 .category(existingCategory)
@@ -82,8 +85,9 @@ public class ProductService implements IProductService {
             existingProduct.setCategory(existingCategory);
             existingProduct.setBrand(existingBrand);
             existingProduct.setPrice(productDTO.getPrice());
+            existingProduct.setQuantity(productDTO.getQuantity());
             existingProduct.setDescription(productDTO.getDescription());
-            existingProduct.setThumbnail(productDTO.getThumbnails());
+            existingProduct.setThumbnails(productDTO.getThumbnails());
             existingProduct.setIngredient(productDTO.getIngredients());
             existingProduct.setUserManual(productDTO.getUserManual());
             productRepository.save(existingProduct);

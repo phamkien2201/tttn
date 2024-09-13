@@ -34,7 +34,7 @@ public class CategoryController {
             page = 0;
         }
         if (limit == null) {
-            limit = 20;
+            limit = 100;
         }
         List<Category> categories = categoryService.getAllCategories(page, limit);
         return ResponseEntity.ok(categories);

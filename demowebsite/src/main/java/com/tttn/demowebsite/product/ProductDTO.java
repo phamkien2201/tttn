@@ -25,6 +25,7 @@ public class ProductDTO {
     @Min(value = 0, message = "gia khong the nho hon 0")
     @Max(value = 100000000, message = "gia khong the lon hon 10,000,000")
     private Float price;
+    private Float quantity;
 
     private List<String> thumbnails; // Updated to match List<String>
     private List<String> ingredients;
@@ -36,4 +37,5 @@ public class ProductDTO {
 
     @JsonProperty("brand_id")
     private Long brandId;
+
 }
