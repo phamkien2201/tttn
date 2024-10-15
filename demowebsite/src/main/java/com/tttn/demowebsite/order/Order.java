@@ -1,6 +1,8 @@
 package com.tttn.demowebsite.order;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tttn.demowebsite.category.Category;
+import com.tttn.demowebsite.orderdetail.OrderDetail;
 import com.tttn.demowebsite.responses.BaseResponse;
 import com.tttn.demowebsite.user.User;
 import jakarta.persistence.*;
@@ -9,6 +11,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -67,4 +70,8 @@ public class Order extends BaseResponse {
 
     @Column(name = "active")
     private Boolean active;//danh cho admin
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<OrderDetail> orderDetails;
 }

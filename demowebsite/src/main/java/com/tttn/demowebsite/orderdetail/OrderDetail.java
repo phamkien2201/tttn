@@ -1,5 +1,6 @@
 package com.tttn.demowebsite.orderdetail;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tttn.demowebsite.order.Order;
 import com.tttn.demowebsite.product.Product;
 import com.tttn.demowebsite.user.User;
@@ -20,6 +21,7 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn (name = "order_id")
+    @JsonBackReference
     private Order order;
 
     @ManyToOne

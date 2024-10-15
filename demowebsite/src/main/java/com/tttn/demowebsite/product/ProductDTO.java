@@ -1,6 +1,7 @@
 package com.tttn.demowebsite.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -27,7 +28,8 @@ public class ProductDTO {
     private Float price;
     private Float quantity;
 
-    private List<String> thumbnails; // Updated to match List<String>
+    private List<String> thumbnails;
+    // Updated to match List<String>
     private List<String> ingredients;
     private String description;
     private String userManual;

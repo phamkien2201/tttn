@@ -1,7 +1,10 @@
 package com.tttn.demowebsite.order;
 
+import com.tttn.demowebsite.responses.OrderListResponse;
+import com.tttn.demowebsite.responses.OrderResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -30,10 +33,10 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrder(
+    public ResponseEntity<OrderResponse> getOrder(
             @Valid @PathVariable("id") Long orderId) {
         Order existingOrder = orderService.getOrder(orderId);
-        return ResponseEntity.ok(existingOrder);
+        return ResponseEntity.ok(OrderResponse.fromOrder(existingOrder));
     }
 
     //cong viec cua admin
@@ -49,5 +52,34 @@ public class OrderController {
     public void deleteOrder(@Valid @PathVariable Long id) {
         //xoa mem => cap nhat truong actice = false
         orderService.deleteOrder(id);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<OrderListResponse> getAllOrders(
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "limit", required = false) Integer limit
+    ) {
+            if (page == null) {
+                page = 0;
+            }
+            if (limit == null) {
+                limit = 10;
+            }
+        OrderListResponse orderListResponse = orderService.getAllOrders(page, limit);
+        return ResponseEntity.ok(orderListResponse);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> updateOrderStatus(
+            @PathVariable("id") Long orderId,
+            @RequestParam("status") String status) {
+        try {
+            orderService.updateOrderStatus(orderId, status);
+            return ResponseEntity.ok("Order status updated to: " + status);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

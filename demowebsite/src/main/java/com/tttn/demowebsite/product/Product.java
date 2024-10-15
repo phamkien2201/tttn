@@ -27,20 +27,20 @@ public class Product extends BaseEntity {
     private Float price;
     private Float quantity;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @ElementCollection
     @CollectionTable(name = "product_thumbnails", joinColumns = @JoinColumn(name = "product_id"))
-    @Column(name = "thumbnail")
+    @Column(name = "thumbnail", columnDefinition = "TEXT")
     private List<String> thumbnails;
 
     @ElementCollection
     @CollectionTable(name = "product_ingredients", joinColumns = @JoinColumn(name = "product_id"))
-    @Column(name = "ingredient")
+    @Column(name = "ingredient", columnDefinition = "TEXT")
     private List<String> ingredient;
 
-    @Column(name = "user_manual")
+    @Column(name = "user_manual", columnDefinition = "TEXT")
     private String userManual;
 
     @ManyToOne

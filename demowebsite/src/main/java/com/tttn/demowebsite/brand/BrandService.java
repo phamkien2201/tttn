@@ -19,6 +19,7 @@ BrandService implements IBrandService {
         Brand newBrand= Brand
                 .builder()
                 .name(brandDTO.getName())
+                .thumbnail(brandDTO.getThumbnail())
                 .build();
         brandRepository.save(newBrand);
     }
@@ -40,6 +41,7 @@ BrandService implements IBrandService {
     public void updateBrand(long brandId, BrandDTO brandDTO) {
         Brand existingBrand = getBrandById(brandId);
         existingBrand.setName(brandDTO.getName());
+        existingBrand.setThumbnail(brandDTO.getThumbnail());
         brandRepository.save(existingBrand);
     }
 

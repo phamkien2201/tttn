@@ -19,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/products")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
 public class ProductController {
 
     private final IProductService productService;
@@ -77,6 +76,42 @@ public class ProductController {
     public void deleteProductById(
             @PathVariable Long id) {
         productService.deleteProduct(id);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    @Operation(summary = "Lấy danh sách sản phẩm theo danh mục")
+    public ResponseEntity<ProductListResponse> findProductsByCategoryId(
+            @PathVariable Long categoryId,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "limit",required = false) Integer limit
+    ) {
+        if (page == null) {
+            page = 0;
+        }
+        if (limit == null) {
+            limit = 20;
+        }
+
+        ProductListResponse productListResponse = productService.findProductsByCategoryId(categoryId, page, limit);
+        return ResponseEntity.ok(productListResponse);
+    }
+
+    @GetMapping("/brand/{brandId}")
+    @Operation(summary = "Lấy danh sách sản phẩm theo thương hiệu")
+    public ResponseEntity<ProductListResponse> findProductsByBrandId(
+            @PathVariable Long brandId,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "limit", required = false) Integer limit
+    ) {
+        if (page == null) {
+            page = 0;
+        }
+        if (limit == null) {
+            limit = 20;
+        }
+
+        ProductListResponse productListResponse = productService.findProductsByBrandId(brandId, page, limit);
+        return ResponseEntity.ok(productListResponse);
     }
 
 }

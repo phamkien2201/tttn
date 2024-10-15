@@ -1,5 +1,6 @@
 package com.tttn.demowebsite.category;
 
+import com.tttn.demowebsite.product.Product;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +12,10 @@ import java.util.List;
 @RequestMapping("api/v1/categories")
 //@Validated
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final ICategoryService iCategoryService;
 
     @PostMapping("")
     @Operation(summary = "Tạo danh mục sản phẩm")
@@ -34,7 +35,7 @@ public class CategoryController {
             page = 0;
         }
         if (limit == null) {
-            limit = 100;
+            limit = 150;
         }
         List<Category> categories = categoryService.getAllCategories(page, limit);
         return ResponseEntity.ok(categories);
@@ -54,4 +55,19 @@ public class CategoryController {
     public void deleteCategories(@PathVariable Long id) {
         categoryService.deleteCategory(id);
     }
+
+    @GetMapping("/parent/{parentId}")
+    @Operation(summary = "Tìm danh mục bằng parentId")
+    public ResponseEntity<List<Category>> findCategoriesByParentId(@PathVariable Long parentId) {
+        List<Category> categories = categoryService.findCategoryByParentId(parentId);
+        return ResponseEntity.ok(categories);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Lấy danh muc bằng id")
+    public ResponseEntity<Category> getCategoryById(@PathVariable("id") Long id) {
+        Category category = categoryService.getCategoryById(id);
+        return ResponseEntity.ok(category);
+    }
+
 }

@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("api/v1/brands")
 //@Validated
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
 public class BrandController {
     private final BrandService brandService;
 
@@ -45,10 +44,17 @@ public class BrandController {
             page = 0;
         }
         if (limit == null) {
-            limit = 20;
+            limit = 100;
         }
         List<Brand> brands = brandService.getAllBrands(page, limit);
         return ResponseEntity.ok(brands);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Lấy brand bằng id")
+    public ResponseEntity<Brand> getCategoryById(@PathVariable("id") Long id) {
+        Brand brand = brandService.getBrandById(id);
+        return ResponseEntity.ok(brand);
     }
 
 

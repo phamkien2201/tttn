@@ -51,4 +51,9 @@ public class CategoryService implements ICategoryService {
         //xoa cung
        categoryRepository.deleteById(id);
     }
+
+    @Override
+    public List<Category> findCategoryByParentId(Long parentId) {
+        return categoryRepository.findByParentId(parentId);
+    }
 }
